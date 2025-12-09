@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Racing 3D - Detail Aplikasi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Kembali ke Home
+    </a>
+
+    <!-- App Detail -->
+    <div class="container app-detail-container">
+        <!-- App Header -->
+        <div class="app-detail-header">
+            <img src="images/icons/app1-icon.png" alt="App Icon" class="detail-icon">
+            <div class="detail-header-info">
+                <h1>Game Racing 3D</h1>
+                <p class="developer">By Racing Games Studio</p>
+                <div class="detail-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="rating">4.2 • 10K+ downloads</span>
+                </div>
+                <button class="download-main-btn" id="downloadBtn">
+                    <i class="fas fa-download"></i> DOWNLOAD (85 MB)
+                </button>
+            </div>
+        </div>
+
+        <!-- Screenshots -->
+        <div class="screenshot-section">
+            <h2><i class="fas fa-images"></i> Screenshots</h2>
+            <div class="screenshot-grid">
+                <div class="screenshot"><img src="images/app1-screenshot1.jpg" alt="Screenshot 1"></div>
+                <div class="screenshot"><img src="images/app1-screenshot2.jpg" alt="Screenshot 2"></div>
+                <div class="screenshot"><img src="images/app1-screenshot3.jpg" alt="Screenshot 3"></div>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="description-section">
+            <h2><i class="fas fa-info-circle"></i> Deskripsi</h2>
+            <div class="description-content">
+                <p>Game balap mobil 3D dengan grafis HD dan gameplay yang seru! Fitur utama:</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> 20+ mobil keren yang bisa diupgrade</li>
+                    <li><i class="fas fa-check"></i> 50+ track berbeda dengan lingkungan dinamis</li>
+                    <li><i class="fas fa-check"></i> Multiplayer online dengan teman</li>
+                    <li><i class="fas fa-check"></i> Kontrol mudah dengan tilt atau touch</li>
+                    <li><i class="fas fa-check"></i> Gratis tanpa iklan yang mengganggu</li>
+                </ul>
+                
+                <h3>Persyaratan Sistem:</h3>
+                <p>Android 7.0 atau lebih tinggi • RAM 2GB+ • Storage 100MB free</p>
+                
+                <h3>Update Terbaru (v2.1.0):</h3>
+                <p>• Tambah 5 mobil baru<br>• Perbaikan bug multiplayer<br>• Optimisasi performa</p>
+            </div>
+        </div>
+
+        <!-- Info Table -->
+        <div class="info-table">
+            <h2><i class="fas fa-table"></i> Informasi Teknis</h2>
+            <table>
+                <tr>
+                    <td>Ukuran</td>
+                    <td>85 MB</td>
+                </tr>
+                <tr>
+                    <td>Versi</td>
+                    <td>2.1.0</td>
+                </tr>
+                <tr>
+                    <td>Update</td>
+                    <td>15 Maret 2024</td>
+                </tr>
+                <tr>
+                    <td>Kategori</td>
+                    <td>Game • Racing • 3D</td>
+                </tr>
+                <tr>
+                    <td>Bahasa</td>
+                    <td>Indonesia, English</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Another Download Button -->
+        <div class="download-section">
+            <h2><i class="fas fa-download"></i> Download Sekarang</h2>
+            <p>Gratis 100% • Aman dan terverifikasi</p>
+            <button class="download-main-btn large" id="downloadBtn2">
+                <i class="fas fa-download"></i> DOWNLOAD GAME RACING 3D
+                <small>APK • 85 MB • Android 7.0+</small>
+            </button>
+            <p class="download-note">
+                <i class="fas fa-shield-alt"></i> File aman, sudah di-scan antivirus
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 AppStore • Game Racing 3D adalah trademark dari Racing Games Studio</p>
+    </footer>
+
+    <script>
+        // Download button functionality
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            window.location.href = 'downloads/app1.apk';
+        });
+        
+        document.getElementById('downloadBtn2').addEventListener('click', function() {
+            window.location.href = 'downloads/app1.apk';
+            alert('Download dimulai! Jika tidak otomatis, cek folder Downloads.');
+        });
+    </script>
+</body>
+</html>
