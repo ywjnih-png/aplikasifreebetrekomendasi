@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- INI YANG BENAR: pakai width=device-width untuk responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>REKOMENDASI APLIKASI TERBARU</title>
+    
+    <style>
+        /* RESET & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --gold: #FFD700;
+            --gold-dark: #D4AF37;
+            --white: #FFFFFF;
+            --black: #0A0A0A;
+            --green: #10B981;
+            --blue: #3B82F6;
+            --bg-dark: #111827;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--black), #1a1a2e);
+            color: var(--white);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        /* HEADER */
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            border-radius: 2px;
+        }
+        
+        .title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+        
+        /* BADGE INFO */
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .badge {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: var(--gold);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* APPS GRID */
+        .apps-container {
+            max-width: 900px;
+            margin: 40px auto;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-left: 10px;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 20px;
+        }
+        
+        .app-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 20px 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: var(--shadow);
+            background: rgba(255, 215, 0, 0.05);
+        }
+        
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue), var(--green), var(--gold));
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .app-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .app-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--white);
+        }
+        
+        .app-size {
+            font-size: 0.8rem;
+            color: var(--green);
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        /* MODAL */
+        .app-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, var(--bg-dark), #1e293b);
+            max-width: 600px;
+            margin: 40px auto;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s;
+        }
+        
+        .close-btn:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+        
+        .modal-header {
+            padding: 40px 30px 30px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(255, 215, 0, 0.1));
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 3px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            flex-shrink: 0;
+        }
+        
+        .modal-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--white);
+        }
+        
+        .modal-subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        
+        .modal-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .badge-small {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--gold);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .badge-vpn {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--blue);
+        }
+        
+        .badge-new {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--green);
+        }
+        
+        /* MODAL BODY */
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .info-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .info-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--white);
+        }
+        
+        .description {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .description h3 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* VPN WARNING */
+        .vpn-warning {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(220, 38, 38, 0.1));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-left: 4px solid var(--gold);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .vpn-warning h4 {
+            color: var(--gold);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* ===== FIX DOWNLOAD BUTTON ===== */
+        .download-section {
+            width: 100%;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+        
+        .download-btn {
+            /* LAYOUT */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            
+            /* SIZING - MOBILE FIRST */
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            padding: 18px 20px;
+            border-radius: 12px;
+            
+            /* TYPOGRAPHY */
+            font-size: 18px;
+            font-weight: 800;
+            text-decoration: none;
+            text-align: center;
+            color: var(--white);
+            
+            /* STYLE */
+            background: linear-gradient(45deg, var(--green), var(--blue));
+            border: none;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+            
+            /* SPACING */
+            margin: 20px auto;
+            
+            /* FIX TEXT */
+            white-space: normal;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        /* FIX UNTUK MOBILE KECIL */
+        @media (max-width: 480px) {
+            .download-btn {
+                padding: 16px 15px !important;
+                font-size: 16px !important;
+                border-radius: 10px !important;
+            }
+        }
+        
+        /* FIX UNTUK TABLET */
+        @media (min-width: 768px) {
+            .download-btn {
+                width: 500px;
+                max-width: 500px;
+                padding: 22px 40px;
+                font-size: 20px;
+                border-radius: 15px;
+            }
+            
+            /* Hover hanya untuk desktop/tablet */
+            .download-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 30px rgba(16, 185, 129, 0.35);
+            }
+        }
+        
+        /* FIX UNTUK DESKTOP */
+        @media (min-width: 1024px) {
+            .download-btn {
+                width: 550px;
+                padding: 24px 50px;
+                font-size: 22px;
+            }
+        }
+        
+        .download-info {
+            margin-top: 15px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        /* COMMUNITY SECTION */
+        .community-section {
+            text-align: center;
+            padding: 40px 30px;
+            margin: 50px auto 30px;
+            max-width: 600px;
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: 25px;
+            border: 1px solid rgba(37, 211, 102, 0.2);
+        }
+        
+        .community-btn {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: var(--white);
+            padding: 16px 35px;
+            border-radius: 15px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .community-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.3);
+        }
+        
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .apps-grid {
+                grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+                gap: 15px;
+            }
+            
+            .app-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .modal-content {
+                margin: 20px auto;
+                max-width: 95%;
+            }
+            
+            .modal-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .download-btn {
+                padding: 14px 12px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER SECTION -->
+    <div class="header">
+        <h1 class="title">🏆 APLIKASI TEREKOMENDASI 2025/2026</h1>
+        <p class="subtitle">Rekomendasi aplikasi freebet terbaru dan tergacor! </p>
+        <div class="badge-container">
+            <div class="badge">🎯 22 Aplikasi Freebet Viral</div>
+            <div class="badge">🎁Banyak Bonus Harian</div>
+            <div class="badge">🎰 Freebet Hingga 30k</div>
+            <div class ="badge">⚠️Gunakan VPN 1.1.1.1 Jika Link Aplikasi Tidak Bisa Di Akses</div>
+        </div>
+    </div>
+
+    <!-- APPS GRID SECTION -->
+    <div class="apps-container">
+        <h2 class="section-title">📱 Koleksi Aplikasi Freebet Gacor</h2>
+        
+        <div class="apps-grid" id="appsGrid">
+            <!-- APLIKASI AKAN DITAMBAHKAN OLEH JAVASCRIPT -->
+        </div>
+    </div>
+
+    <!-- COMMUNITY SECTION -->
+    <div class="community-section">
+        <h2 style="color: #25D366; margin-bottom: 15px;">👥 Bergabung dengan Komunitas</h2>
+        <p style="color: #94a3b8; margin-bottom: 10px;">Dapatkan update terbaru, tips, dan diskusi eksklusif</p>
+        <a href="https://chat.whatsapp.com/HJWAxbZvzgQLidfkBTbIFz" class="community-btn" target="_blank">
+            📱 Join Grup WhatsApp
+        </a>
+    </div>
+
+    <!-- MODAL DETAIL APLIKASI -->
+    <div class="app-modal" id="appModal">
+        <button class="close-btn" onclick="closeModal()">✕</button>
+        <div class="modal-content" id="modalContent">
+            <!-- KONTEN MODAL AKAN DITAMBAHKAN OLEH JAVASCRIPT -->
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>© 2024 Premium App Gallery • Semua aplikasi gratis untuk penggunaan pribadi</p>
+        <p style="margin-top: 10px; font-size: 0.8rem;">Untuk pengalaman terbaik, gunakan koneksi internet stabil</p>
+    </div>
+
+    <!-- JAVASCRIPT (SAMA DENGAN YANG LAMA) -->
+    <script>
+        // DATA 22 APLIKASI LENGKAP
+        const appsData = [
+            {
+                id: '68idn',
+                name: '68IDN',
+                logo: 'logo/68idn.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v2.1.0',
+                size: '38 MB',
+                requires: 'Android 7.0+ • RAM 2GB+',
+                description: 'Aplikasi gaming premium dengan performa optimal dan grafis HD. Update terbaru memberikan peningkatan stabilitas dan keamanan sistem.',
+                link: 'https://68idnshare13.top?pid=455989731&pkg=com.idn68.app',
+                needsVPN: false,
+                isNew: true,
+                isPopular: true
+            },
+            {
+                id: '777lucky',
+                name: '777LUCKY',
+                logo: 'logo/lucky777.jpg',
+                category: 'Aplikasi Hijau',
+                version: 'v1.5.3',
+                size: '35 MB',
+                requires: 'Android 6.0+ • RAM 1.5GB+',
+                description: 'Platform entertainment dengan berbagai fitur menarik dan interface yang user-friendly. Didesain untuk pengalaman terbaik.',
+                link: 'https://777lucky.im/?code=B3Z3YHP5RUC&t=1764996934',
+                needsVPN: false,
+                isNew: true,
+                isPopular: true
+            },
+            {
+                id: 'id678',
+                name: 'ID678',
+                logo: 'logo/id678.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v1.5.3',
+                size: '35 MB',
+                requires: 'Android 6.0+ • RAM 1.5GB+',
+                description: 'Platform entertainment dengan berbagai fitur menarik dan interface yang user-friendly. Didesain untuk pengalaman terbaik.',
+                link: 'https://id678share11.top?pid=320572354&pkg=com.id678.app',
+                needsVPN: false,
+                isNew: true,
+                isPopular: true
+            },
+            {
+                id: '88id',
+                name: '88ID',
+                logo: 'logo/88id.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v1.8.2',
+                size: '32 MB',
+                requires: 'Android 7.1+ • RAM 2GB+',
+                description: 'Experience gaming dengan server stabil dan minim lag. Cocok untuk berbagai jenis koneksi internet.',
+                link: 'https://88idshare.com?pid=525284955&pkg=com.new88id.app',
+                needsVPN: false,
+                isNew: true,
+                isPopular: true
+            },
+            {
+                id: 'halo777',
+                name: 'Halo777',
+                logo: 'logo/halo777.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v3.0.1',
+                size: '36 MB',
+                requires: 'Android 8.0+ • RAM 3GB+',
+                description: 'Aplikasi baru dengan teknologi terbaru dan grafis berkualitas tinggi. Gameplay smooth dan responsif.',
+                link: 'https://halo777.cam/?pid=433224698&pkg=com.halo777.app',
+                needsVPN: false,
+                isNew: true,
+                isPopular: false
+            },
+            {
+                id: 'sl777',
+                name: 'SL777',
+                logo: 'logo/sl777.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v2.5.0',
+                size: '34 MB',
+                requires: 'Android 8.0+ • RAM 3GB+',
+                description: 'Koleksi game lengkap dalam satu aplikasi. Update konten rutin setiap minggu untuk kepuasan pengguna.',
+                link: 'https://sl777win.com/?pid=297700277&pkg=com.sl777.app',
+                needsVPN: false,
+                isNew: false,
+                isPopular: true
+            },
+            {
+                id: 'zk6com',
+                name: 'ZK6COM',
+                logo: 'logo/zk6com.jpg',
+                category: 'Aplikasi Hijau',
+                version: 'v4.2.0',
+                size: '37 MB',
+                requires: 'Android 9.0+ • RAM 4GB+',
+                description: 'Aplikasi ijo baru dengan fitur eksklusif dan minimal iklan. Optimalisasi baterai untuk penggunaan lama.',
+                link: 'https://66222zk.com/?code=RJLMQPAJ2FS&t=1764355777',
+                needsVPN: false,
+                isNew: true,
+                isPopular: false
+            },
+            {
+                id: '369zk',
+                name: '369ZK',
+                logo: 'logo/369zk.jpg',
+                category: 'Aplikasi Hijau',
+                version: 'v2.3.4',
+                size: '31 MB',
+                requires: 'Android 5.0+ • RAM 1GB+',
+                description: 'Apk ijo baru dengan performa super ringan. Cocok untuk device dengan spesifikasi menengah.',
+                link: 'https://369zk555.com/?code=FHNDYB73BTM&t=1762614396',
+                needsVPN: false,
+                isNew: true,
+                isPopular: false
+            },
+            {
+                id: 'rezekigames',
+                name: 'RezekiGames',
+                logo: 'logo/rezekigames.jpg',
+                category: 'Aplikasi Hijau',
+                version: 'v1.7.8',
+                size: '33 MB',
+                requires: 'Android 7.0+ • RAM 2GB+',
+                description: 'Bukan Rejeki Bet. Aplikasi entertainment dengan konsep berbeda dan fitur unik.',
+                link: 'https://www.rejekigamesagen009.com/?code=APJWKSTBTXR&t=1761946549',
+                needsVPN: false,
+                isNew: false,
+                isPopular: true
+            },
+            {
+                id: '567luck',
+                name: '567LUCK',
+                logo: 'logo/567luck.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v1.2.5',
+                size: '30 MB',
+                requires: 'Android 6.0+ • RAM 1.5GB+',
+                description: 'Platform gaming dengan lucky features dan bonus harian. Reward menarik untuk pengguna aktif.',
+                link: 'https://share5678luck.my?pid=455274026&pkg=com.luck20.app',
+                needsVPN: false,
+                isNew: false,
+                isPopular: true
+            },
+            {
+                id: 'idn777',
+                name: 'IDN777',
+                logo: 'logo/idn777.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v3.1.0',
+                size: '38 MB',
+                requires: 'Android 8.0+ • RAM 3GB+',
+                description: 'Versi terbaru dengan peningkatan signifikan pada performa dan stabilitas. Lebih cepat dan aman.',
+                link: 'https://idn7777.cyou?pid=340012769&pkg=com.idn777.app',
+                needsVPN: false,
+                isNew: false,
+                isPopular: true
+            },
+            {
+                id: '789bni',
+                name: '789BNI',
+                logo: 'logo/789bni.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v2.0.8',
+                size: '35 MB',
+                requires: 'Android 7.0+ • RAM 2GB+',
+                description: 'Aplikasi baru dengan interface modern dan transaksi yang mudah. Keamanan terjamin.',
+                link: 'https://789bni.site?pid=343625981&pkg=com.new789bni.app',
+                needsVPN: false,
+                isNew: true,
+                isPopular: false
+            },
+            {
+                id: 'danagame',
+                name: 'DANAGAME',
+                logo: 'logo/danagame.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v1.9.3',
+                size: '36 MB',
+                requires: 'Android 6.0+ • RAM 1.5GB+',
+                description: 'Koleksi game dalam satu platform dengan support multiplayer. Komunitas aktif dan support 24/7.',
+                link: 'https://sharedanagame.buzz?pid=456015042&pkg=com.danagame41.app',
+                needsVPN: false,
+                isNew: false,
+                isPopular: true
+            },
+            {
+                id: 'lucksvip',
+                name: 'LUCKSVIP',
+                logo: 'logo/lucksvip.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v2.2.1',
+                size: '37 MB',
+                requires: 'Android 9.0+ • RAM 4GB+',
+                description: 'VIP experience dengan fitur eksklusif dan prioritas support. Akses early untuk fitur baru.',
+                link: 'https://sharelucksvip7.cc?pid=457114196&pkg=com.lucksvip.app',
+                needsVPN: false,
+                isNew: true,
+                isPopular: false
+            },
+            {
+                id: 'idn789',
+                name: 'IDN789',
+                logo: 'logo/idn789.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v3.2.0',
+                size: '38 MB',
+                requires: 'Android 9.0+ • RAM 4GB+',
+                description: 'Platform VIP dengan berbagai keuntungan dan server dedicated untuk performa maksimal.',
+                link: 'https://idn789vip.org/?pid=322140115&pkg=com.idn789.app',
+                needsVPN: false,
+                isNew: false,
+                isPopular: true
+            },
+            {
+                id: '8id',
+                name: '8ID',
+                logo: 'logo/8id.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v1.6.4',
+                size: '32 MB',
+                requires: 'Android 7.0+ • RAM 2GB+',
+                description: 'Aplikasi dengan angka keberuntungan dan fitur unik. Berbeda dari aplikasi sejenis lainnya.',
+                link: 'https://share8id.cc?pid=360383215&pkg=com.eightid.indoaisabeta',
+                needsVPN: false,
+                isNew: false,
+                isPopular: true
+            },
+            {
+                id: 'zk988',
+                name: 'ZK988',
+                logo: 'logo/zk988.jpg',
+                category: 'Game',
+                version: 'v2.4.3',
+                size: '34 MB',
+                requires: 'Android 8.0+ • RAM 2GB+',
+                description: 'Platform dengan sistem angka yang mudah dipahami. Interface clean dan user-friendly.',
+                link: 'https://www.zk988.com?chn=bnRfems5ODhfY3Qz&id=NDQ3MTE5Nzky',
+                needsVPN: false,
+                isNew: false,
+                isPopular: true
+            },
+            {
+                id: '789rp',
+                name: '789RP',
+                logo: 'logo/789rp.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v1.3.7',
+                size: '36 MB',
+                requires: 'Android 8.0+ • RAM 3GB+',
+                description: 'Aplikasi baru dengan konsep role play yang immersive. Pengalaman gaming yang mendalam.',
+                link: 'https://789rp.blog/?pid=421627632&pkg=com.rp789.game',
+                needsVPN: false,
+                isNew: true,
+                isPopular: false
+            },
+            {
+                id: 'idrrp',
+                name: 'IDRRP',
+                logo: 'logo/idrrp.jpg',
+                category: 'Metro Game',
+                version: 'v1.8.9',
+                size: '33 MB',
+                requires: 'Android 7.0+ • RAM 2GB+ • VPN',
+                description: 'Platform dengan fitur khusus region yang membutuhkan VPN. Akses konten eksklusif.',
+                link: 'https://rprprpgames.com:2096/?c=UTMRJH',
+                needsVPN: true,
+                isNew: false,
+                isPopular: false
+            },
+            {
+                id: 'jkt8',
+                name: 'JKT8',
+                logo: 'logo/jkt8.jpg',
+                category: 'Metro Game',
+                version: 'v2.0.5',
+                size: '35 MB',
+                requires: 'Android 7.0+ • RAM 2GB+',
+                description: 'Aplikasi dengan tema metropolitan modern. Fitur update rutin dan support terbaik.',
+                link: 'https://jkt8raya.com/?c=IV2OZ4ZK',
+                needsVPN: false,
+                isNew: false,
+                isPopular: true
+            },
+            {
+                id: '366d',
+                name: '366D',
+                logo: 'logo/366d.jpg',
+                category: 'Daily Features',
+                version: 'v1.9.2',
+                size: '34 MB',
+                requires: 'Android 8.0+ • RAM 2GB+',
+                description: 'Platform dengan 366 daily features yang berbeda setiap hari. Konten selalu fresh.',
+                link: 'https://180gamedo.lol/?channelCode=M90274',
+                needsVPN: false,
+                isNew: true,
+                isPopular: false
+            },
+            {
+                id: 'c789',
+                name: 'C789',
+                logo: 'logo/c789.jpg',
+                category: 'Circular System',
+                version: 'v2.1.4',
+                size: '36 MB',
+                requires: 'Android 8.0+ • RAM 3GB+',
+                description: 'Aplikasi dengan sistem circular yang unik dan interface menarik. Pengalaman berbeda.',
+                link: 'https://v1.c7899s.com/share.html?id=90592752248&invite_type=2',
+                needsVPN: false,
+                isNew: false,
+                isPopular: true
+            },
+            {
+                id: 'rpgame',
+                name: 'RPGAME',
+                logo: 'logo/rpgame.jpg',
+                category: 'Aplikasi Kuning',
+                version: 'v2.3.6',
+                size: '37 MB',
+                requires: 'Android 9.0+ • RAM 4GB+ • VPN',
+                description: 'Role play game platform premium yang membutuhkan VPN untuk akses optimal.',
+                link: 'https://share.rpgames.me?pid=517496563&pkg=com.rpgame.app',
+                needsVPN: true,
+                isNew: false,
+                isPopular: false
+            }
+        ];
+
+        // FUNGSI UNTUK MEMBUAT GRID APLIKASI
+        function createAppsGrid() {
+            const grid = document.getElementById('appsGrid');
+            grid.innerHTML = '';
+            
+            appsData.forEach(app => {
+                const appCard = document.createElement('div');
+                appCard.className = 'app-card';
+                appCard.onclick = () => openModal(app);
+                
+                const logoFallback = `https://ui-avatars.com/api/?name=${app.name}&background=FFD700&color=000&size=70&bold=true`;
+                
+                appCard.innerHTML = `
+                    <div class="app-icon">
+                        <img src="${app.logo}" alt="${app.name}" 
+                             onerror="this.src='${logoFallback}'; this.onerror=null;">
+                    </div>
+                    <div class="app-name">${app.name}</div>
+                    <div class="app-size">${app.size}</div>
+                `;
+                
+                grid.appendChild(appCard);
+            });
+        }
+
+        // FUNGSI UNTUK MEMBUKA MODAL DETAIL
+        function openModal(app) {
+            const modal = document.getElementById('appModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            const logoFallback = `https://ui-avatars.com/api/?name=${app.name}&background=FFD700&color=000&size=100&bold=true`;
+            
+            let badges = '';
+            if (app.isNew) badges += '<span class="badge-small badge-new">🔥 BARU</span>';
+            if (app.isPopular) badges += '<span class="badge-small">⭐ POPULER</span>';
+            if (app.needsVPN) badges += '<span class="badge-small badge-vpn">🔒 BUTUH VPN</span>';
+            
+            const vpnWarning = app.needsVPN ? `
+                <div class="vpn-warning">
+                    <h4>⚠️ PERHATIAN: BUTUH VPN 1.1.1.1</h4>
+                    <p>Untuk mengakses aplikasi ini, Anda <strong>WAJIB menggunakan VPN 1.1.1.1</strong>. 
+                    Download VPN 1.1.1.1 dari Play Store gratis sebelum download aplikasi ini.</p>
+                </div>
+            ` : '';
+            
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <div class="modal-icon">
+                        <img src="${app.logo}" alt="${app.name}" 
+                             onerror="this.src='${logoFallback}'; this.onerror=null;">
+                    </div>
+                    <div>
+                        <h2 class="modal-title">${app.name}</h2>
+                        <p class="modal-subtitle">${app.category} • ${app.version} • <strong style="color: #10B981">${app.size} ⚡</strong></p>
+                        <div class="modal-badges">
+                            ${badges}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">VERSI APLIKASI</div>
+                            <div class="info-value">${app.version}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">UKURAN FILE</div>
+                            <div class="info-value" style="color: #10B981">${app.size}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">SISTEM MINIMAL</div>
+                            <div class="info-value">${app.requires.split(' • ')[0]}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">STATUS</div>
+                            <div class="info-value">${app.isNew ? '🟢 AKTIF' : '🔵 ONLINE'}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="description">
+                        <h3>📋 DESKRIPSI LENGKAP</h3>
+                        <p>${app.description}</p>
+                    </div>
+                    
+                    ${vpnWarning}
+                    
+                    <div class="download-section">
+                        <a href="${app.link}" class="download-btn" target="_blank" onclick="trackDownload('${app.name}')">
+                            DOWNLOAD ${app.name} 
+                        </a>
+                        <p class="download-info">
+                            🔗 Direct Link • ${app.size} ⚡ Ringan • ${app.requires.split(' • ')[0]}
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // FUNGSI UNTUK MENUTUP MODAL
+        function closeModal() {
+            document.getElementById('appModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // FUNGSI TRACK DOWNLOAD
+        function trackDownload(appName) {
+            console.log(`✅ Download dimulai: ${appName}`);
+        }
+
+        // INISIALISASI
+        document.addEventListener('DOMContentLoaded', function() {
+            createAppsGrid();
+            
+            document.getElementById('appModal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
+            });
+            
+            console.log('🎯 App Gallery siap! Total aplikasi:', appsData.length);
+        });
+    </script>
+</body>
+</html>
