@@ -43,7 +43,84 @@ let dbApps = [];
 const display = document.getElementById('main-display');
 const chatBox = document.getElementById('chat-display');
 
-// === 1. FUNGSI AVATAR ===
+// === 1. MODAL WELCOME FUNCTIONS ===
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('welcome-modal');
+    const closeBtn = document.getElementById('close-modal');
+    const enterBtn = document.getElementById('enter-site');
+    
+    // Tampilkan modal jika belum pernah ditutup di session ini
+    if (!sessionStorage.getItem('welcomeModalShown')) {
+        setTimeout(() => {
+            modal.style.display = 'flex';
+            // Acak posisi APK saat modal muncul
+            if (dbApps.length > 0) {
+                shuffleApps();
+            }
+        }, 800);
+    }
+    
+    // Fungsi tutup modal
+    const closeModal = () => {
+        modal.style.display = 'none';
+        sessionStorage.setItem('welcomeModalShown', 'true');
+        // Track visitor setelah modal ditutup
+        trackVisitor();
+    };
+    
+    if (closeBtn) closeBtn.onclick = closeModal;
+    if (enterBtn) enterBtn.onclick = closeModal;
+    
+    // Tutup modal jika klik di luar konten
+    modal.onclick = (e) => {
+        if (e.target === modal) closeModal();
+    };
+});
+
+// === 2. FUNGSI SHUFFLE/RANDOMIZE POSITION ===
+function shuffleApps() {
+    if (dbApps.length === 0) return;
+    
+    const shuffled = [...dbApps];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    // Render dengan posisi acak
+    renderList(shuffled);
+}
+
+// === 3. UPDATE RENDER LIST UNTUK CLICK SELURUH CARD ===
+function renderList(items) {
+    display.innerHTML = "";
+    items.forEach(apk => {
+        const card = document.createElement('div');
+        card.className = 'app-card';
+        card.setAttribute('data-id', apk.id);
+        
+        // Buat card dengan event click di seluruh area
+        card.innerHTML = `
+            <img src="${apk.logo_url || 'https://via.placeholder.com/100'}" 
+                 onerror="this.src='https://via.placeholder.com/100'">
+            <div class="app-name">${apk.name}</div>
+            <button class="btn-dl" onclick="event.stopPropagation(); handleDL('${apk.id}', '${apk.download_url}')">
+                <i class="fas fa-download" style="margin-right: 4px;"></i> DOWNLOAD
+            </button>
+        `;
+        
+        // Klik di mana saja di card akan trigger download
+        card.onclick = (e) => {
+            if (!e.target.classList.contains('btn-dl') && !e.target.closest('.btn-dl')) {
+                handleDL(apk.id, apk.download_url);
+            }
+        };
+        
+        display.appendChild(card);
+    });
+}
+
+// === 4. FUNGSI AVATAR ===
 function getAvatar(name) {
     const colors = ['#2ecc71', '#3498db', '#9b59b6', '#f1c40f', '#e67e22', '#e74c3c'];
     const char = name.charAt(0).toUpperCase();
@@ -51,7 +128,7 @@ function getAvatar(name) {
     return `<div class="letter-avatar" style="background:${color}">${char}</div>`;
 }
 
-// === 2. SCANNING & DOWNLOAD ===
+// === 5. SCANNING & DOWNLOAD ===
 window.handleDL = (id, url) => {
     const overlay = document.getElementById('scan-overlay');
     const bar = document.getElementById('scan-bar');
@@ -74,39 +151,32 @@ window.handleDL = (id, url) => {
             clearInterval(interval);
             setTimeout(async () => {
                 overlay.style.display = 'none';
-                try { await updateDoc(doc(db, "analytics", "stats"), { total_clicks: increment(1) }); } catch(e){}
+                try { 
+                    await updateDoc(doc(db, "analytics", "stats"), { 
+                        total_clicks: increment(1),
+                        today_clicks: increment(1) 
+                    }, { merge: true }); 
+                } catch(e){}
                 window.open(url, "_blank");
             }, 800);
         }
     }, 150);
 };
 
-// === 3. RENDER DATA (FIRESTORE) ===
+// === 6. RENDER DATA (FIRESTORE) ===
 onSnapshot(collection(db, "apps"), (snap) => {
     dbApps = [];
     snap.forEach(d => dbApps.push({ id: d.id, ...d.data() }));
-    renderList(dbApps);
+    
+    // Acak posisi setiap kali data dimuat
+    shuffleApps();
 });
 
-function renderList(items) {
-    display.innerHTML = "";
-    items.forEach(apk => {
-        display.innerHTML += `
-            <div class="app-card">
-                <img src="${apk.logo_url || 'https://via.placeholder.com/100'}">
-                <div class="app-name">${apk.name}</div>
-                <button class="btn-dl" onclick="handleDL('${apk.id}', '${apk.download_url}')">DOWNLOAD</button>
-            </div>
-        `;
-    });
-}
-
-// === 4. CHAT SYSTEM ===
+// === 7. CHAT SYSTEM ===
 function pushChat(user, msg) {
     const div = document.createElement('div');
     div.className = "comment-item";
     
-    // List warna acak untuk nama (biar kontras di bubble biru)
     const nameColors = ['#FFD700', '#FF69B4', '#00FF7F', '#FFA500', '#F0E68C', '#ADFF2F', '#FFFFFF'];
     const randomNameColor = nameColors[Math.floor(Math.random() * nameColors.length)];
 
@@ -137,19 +207,15 @@ document.getElementById('chat-btn').onclick = () => {
     inp.value = "";
 };
 
-// === 5. WD TOAST (INI YANG GUE PERBAIKI BOSS) ===
+// === 8. WD TOAST ===
 setInterval(() => {
     if(dbApps.length === 0) return;
     const toast = document.getElementById('wd-toast');
     
-    // Ambil User manual
     const user = USERS[Math.floor(Math.random() * USERS.length)];
-    // Ambil Nominal manual
     const nominal = NOMINALS[Math.floor(Math.random() * NOMINALS.length)];
-    // Ambil Aplikasi dari Firestore
     const apk = dbApps[Math.floor(Math.random() * dbApps.length)].name;
 
-    // Ganti Isi Sesuai Request Lo
     toast.innerHTML = `
         <i class="fas fa-check-circle" style="color: var(--green);"></i> 
         User <b>${user}***</b> Withdraw <b style="color: var(--sky);">Rp ${nominal}</b> di <b>${apk}</b>
@@ -157,17 +223,40 @@ setInterval(() => {
 
     toast.style.display = 'block';
     setTimeout(() => toast.style.display = 'none', 5000);
-}, 12000); // Muncul tiap 12 detik
+}, 12000);
 
-// === 6. SEARCH ===
+// === 9. SEARCH ===
 document.getElementById('search-input').oninput = (e) => {
     const key = e.target.value.toLowerCase();
-    renderList(dbApps.filter(a => a.name.toLowerCase().includes(key)));
+    const filtered = dbApps.filter(a => a.name.toLowerCase().includes(key));
+    renderList(filtered);
 };
 
-// === 7. SORT ===
+// === 10. SORT & SHUFFLE ON BADGE CLICK ===
 window.sortData = (type, btn) => {
     document.querySelectorAll('.badge-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    renderList([...dbApps].sort(() => Math.random() - 0.5));
+    
+    // Acak posisi APK saat badge filter diklik
+    shuffleApps();
 };
+
+// === 11. TRACK VISITOR ===
+async function trackVisitor() {
+    try {
+        await setDoc(doc(db, "analytics", "stats"), {
+            total_visitors: increment(1),
+            today_visitors: increment(1),
+            updated_at: new Date().toISOString()
+        }, { merge: true });
+    } catch (e) {
+        console.log("Error tracking visitor:", e);
+    }
+}
+
+// === 12. AUTO SHUFFLE POSITION EVERY 30 SECONDS ===
+setInterval(() => {
+    if (dbApps.length > 0 && !document.getElementById('welcome-modal').style.display) {
+        shuffleApps();
+    }
+}, 30000);
