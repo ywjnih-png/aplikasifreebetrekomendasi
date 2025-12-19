@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUDANG GACOR PRO | VVIP CATALOG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --green: #2ecc71; --sky: #3498db; --gold: #FFD700;
+            --bg: #f0f2f5; --card: #ffffff; --text: #1a1c20; --border: #dadce0;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root { --bg: #030508; --card: #11151c; --text: #ffffff; --border: #222; }
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; transition: 0.3s; padding-bottom: 50px; }
+        header { padding: 15px; text-align: center; background: var(--card); border-bottom: 2px solid var(--green); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-family: 'Orbitron'; font-size: 18px; color: var(--text); text-decoration: none; }
+        .logo span { color: var(--green); }
+
+        /* WD Toast Fix */
+        #wd-toast { position: fixed; top: 70px; left: 10px; right: 10px; background: var(--card); border: 1px solid var(--green); padding: 12px; border-radius: 8px; display: none; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.2); font-size: 11px; text-align: center; }
+
+        /* Scanning Overlay */
+        #scan-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 10000; align-items: center; justify-content: center; }
+        .scan-card { width: 280px; background: #111; padding: 25px; border-radius: 20px; border: 2px solid var(--sky); text-align: center; position: relative; overflow: hidden; color: white; }
+        .scan-laser { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--sky); box-shadow: 0 0 15px var(--sky); animation: laserMove 2s infinite linear; }
+        @keyframes laserMove { 0% { top: 0; } 100% { top: 100%; } }
+        .progress-bg { background: #222; height: 8px; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+        #scan-bar { width: 0%; height: 100%; background: var(--sky); transition: 0.2s; }
+
+        /* Search & Nav */
+        .search-area { padding: 15px; max-width: 500px; margin: auto; }
+        .search-wrapper { position: relative; display: flex; align-items: center; }
+        .search-wrapper i { position: absolute; left: 12px; color: #888; }
+        #search-input { width: 100%; padding: 10px 10px 10px 35px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); outline: none; }
+        .filter-nav { display: flex; gap: 8px; overflow-x: auto; padding: 10px 15px; scrollbar-width: none; }
+        .badge-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 5px; }
+        .badge-btn.active { background: var(--green); color: #000; border-color: var(--green); }
+
+        /* App Grid */
+        .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; max-width: 600px; margin: auto; }
+        .app-card { background: var(--card); border-radius: 12px; padding: 10px 5px; text-align: center; border: 1px solid var(--sky); box-shadow: 0 0 12px rgba(52, 152, 219, 0.2); }
+        .app-card img { width: 60px; height: 60px; border-radius: 14px; margin-bottom: 8px; object-fit: cover; }
+        .app-name { font-size: 10px; font-weight: bold; height: 28px; overflow: hidden; margin-bottom: 8px; }
+        .btn-dl { background: var(--sky); color: white; border: none; padding: 6px 0; border-radius: 5px; width: 90%; font-size: 9px; font-weight: bold; cursor: pointer; }
+
+        /* Chat */
+        .chat-section { max-width: 500px; margin: 20px auto; padding: 0 15px; }
+        .chat-box { height: 250px; background: transparent; overflow-y: auto; }
+        .comment-item { display: flex; gap: 10px; margin-bottom: 12px; align-items: flex-start; }
+        .letter-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; flex-shrink: 0; }
+        .comment-content { flex: 1; background: rgba(0, 0, 0, 0.85); padding: 8px 12px; border-radius: 0 12px 12px 12px; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .comment-content b { color: var(--green); font-size: 10px; display: block; }
+        .comment-content p { margin: 0; font-size: 10px; line-height: 1.4; }
+        .chat-form { display: flex; gap: 8px; margin-top: 10px; }
+        .chat-form input { flex: 1; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 8px; font-size: 12px; outline: none; }
+        .btn-send { background: var(--green); border: none; padding: 0 15px; border-radius: 8px; color: white; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<header><a href="#" class="logo">GUDANG<span>GACOR</span>PRO</a></header>
+
+<div id="wd-toast">
+    <i class="fas fa-check-circle" style="color: var(--green);"></i> 
+    <span id="toast-inner">Memuat data...</span>
+</div>
+
+<div id="scan-overlay">
+    <div class="scan-card">
+        <div class="scan-laser"></div>
+        <i class="fas fa-shield-virus fa-3x" style="color: var(--sky);"></i>
+        <h4 id="scan-status" style="margin: 15px 0 5px;">SCANNING...</h4>
+        <div class="progress-bg"><div id="scan-bar"></div></div>
+        <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: bold;">
+            <span id="scan-percent">0%</span><span>SECURE</span>
+        </div>
+    </div>
+</div>
+
+<div class="search-area">
+    <div class="search-wrapper">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Cari APK Gacor...">
+    </div>
+</div>
+
+<div class="filter-nav">
+    <div class="badge-btn active"><i class="fas fa-th-large"></i> SEMUA</div>
+    <div class="badge-btn"><i class="fas fa-fire" style="color:red"></i> GACOR</div>
+    <div class="badge-btn"><i class="fas fa-chart-line" style="color:var(--sky)"></i> TRENDING</div>
+    <div class="badge-btn"><i class="fas fa-gem" style="color:var(--gold)"></i> VVIP</div>
+</div>
+
+<div class="app-grid" id="main-display"></div>
+
+<div class="chat-section">
+    <div style="font-size: 11px; font-weight: bold; margin-bottom: 8px; color: var(--sky);">LIVE CHAT</div>
+    <div class="chat-box" id="chat-display"></div>
+    <div class="chat-form">
+        <input type="text" id="chat-in" placeholder="Komen di sini...">
+        <button class="btn-send" id="chat-btn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

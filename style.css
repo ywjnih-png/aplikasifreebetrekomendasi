@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --bg: #05070a;
+    --card: #0f1218;
+    --gold: #FFD700;
+    --white: #ffffff;
+    --gray: #b5b5b5;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--white);
+    font-family: 'Poppins', sans-serif;
+    margin: 0; padding: 0; overflow-x: hidden;
+}
+
+/* Header Luxury */
+header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(to bottom, #111, var(--bg));
+}
+
+h1 { font-family: 'Orbitron'; color: var(--gold); margin: 0; font-size: 2.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+
+/* Play Store Grid Layout */
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.app-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 15px;
+    border: 1px solid #222;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+}
+
+.app-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+
+.app-card img { width: 90px; height: 90px; border-radius: 22%; object-fit: cover; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+
+.app-name { font-weight: 600; font-size: 14px; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.rtp-tag { font-size: 11px; color: var(--gold); font-weight: bold; margin-bottom: 10px; }
+
+.btn-download {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Poppins';
+}
+
+/* Floating WD Notif */
+#wd-container {
+    position: fixed;
+    bottom: 20px; left: 20px;
+    z-index: 1000;
+}
+
+.wd-toast {
+    background: rgba(15, 18, 24, 0.95);
+    border-left: 4px solid var(--gold);
+    padding: 12px 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: slideIn 0.5s ease forwards;
+}
+
+@keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
