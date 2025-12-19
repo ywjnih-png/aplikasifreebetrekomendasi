@@ -39,12 +39,72 @@
         .badge-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 5px; }
         .badge-btn.active { background: var(--green); color: #000; border-color: var(--green); }
 
-        /* App Grid */
-        .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; max-width: 600px; margin: auto; }
-        .app-card { background: var(--card); border-radius: 12px; padding: 10px 5px; text-align: center; border: 1px solid var(--sky); box-shadow: 0 0 12px rgba(52, 152, 219, 0.2); }
-        .app-card img { width: 60px; height: 60px; border-radius: 14px; margin-bottom: 8px; object-fit: cover; }
-        .app-name { font-size: 10px; font-weight: bold; height: 28px; overflow: hidden; margin-bottom: 8px; }
-        .btn-dl { background: var(--sky); color: white; border: none; padding: 6px 0; border-radius: 5px; width: 90%; font-size: 9px; font-weight: bold; cursor: pointer; }
+        /* Enhanced App Grid */
+        .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 15px; max-width: 600px; margin: auto; }
+        
+        /* Enhanced App Card dengan klik seluruh area */
+        .app-card { 
+            background: linear-gradient(145deg, var(--card) 0%, #1a1f26 100%);
+            border-radius: 16px; 
+            padding: 12px 8px; 
+            border: 1px solid var(--sky);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.25);
+            text-align: center; 
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .app-card:hover { 
+            border-color: var(--gold); 
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(52, 152, 219, 0.4);
+        }
+        .app-card:active { 
+            transform: translateY(-3px);
+        }
+        .app-card img { 
+            width: 65px; 
+            height: 65px; 
+            border-radius: 14px; 
+            margin-bottom: 10px; 
+            object-fit: cover; 
+            border: 2px solid rgba(52, 152, 219, 0.3);
+            transition: all 0.3s;
+        }
+        .app-card:hover img { 
+            border-color: var(--gold);
+            transform: scale(1.05);
+        }
+        .app-name { 
+            font-size: 10px; 
+            font-weight: bold; 
+            height: 28px; 
+            overflow: hidden; 
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--sky), var(--green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .btn-dl { 
+            background: var(--sky); 
+            color: white; 
+            border: none; 
+            padding: 6px 0; 
+            border-radius: 6px; 
+            width: 90%; 
+            font-size: 9px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s;
+        }
+        .btn-dl:hover { 
+            background: var(--green);
+            transform: scale(1.05);
+        }
 
         /* Chat */
         .chat-section { max-width: 500px; margin: 20px auto; padding: 0 15px; }
@@ -57,11 +117,193 @@
         .chat-form { display: flex; gap: 8px; margin-top: 10px; }
         .chat-form input { flex: 1; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 8px; font-size: 12px; outline: none; }
         .btn-send { background: var(--green); border: none; padding: 0 15px; border-radius: 8px; color: white; cursor: pointer; }
+
+        /* Modal Popup Welcome */
+        #welcome-modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.95); 
+            z-index: 9998; 
+            align-items: center; 
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content { 
+            background: linear-gradient(135deg, #0a0e14 0%, #151b26 100%); 
+            max-width: 380px; 
+            width: 90%; 
+            padding: 25px; 
+            border-radius: 20px; 
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            text-align: center; 
+            position: relative;
+            animation: modalFade 0.5s ease-out;
+        }
+        @keyframes modalFade {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-close { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            background: transparent; 
+            border: none; 
+            color: var(--gold); 
+            font-size: 20px; 
+            cursor: pointer; 
+            width: 30px; 
+            height: 30px; 
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+        .modal-close:hover { 
+            background: rgba(255, 215, 0, 0.1); 
+            transform: rotate(90deg);
+        }
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        .modal-title {
+            color: var(--gold); 
+            font-family: 'Orbitron'; 
+            margin: 0 0 5px 0; 
+            font-size: 22px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        .modal-subtitle {
+            color: #ccc;
+            font-size: 11px;
+            margin: 0;
+        }
+        .modal-item { 
+            display: flex; 
+            align-items: flex-start; 
+            margin-bottom: 15px; 
+            text-align: left;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 3px solid var(--sky);
+        }
+        .modal-item:nth-child(2) { border-left-color: var(--gold); }
+        .modal-item:nth-child(3) { border-left-color: var(--green); }
+        .modal-item i { 
+            color: var(--sky); 
+            margin-right: 10px; 
+            margin-top: 2px;
+            font-size: 14px;
+            min-width: 20px;
+        }
+        .modal-item:nth-child(2) i { color: var(--gold); }
+        .modal-item:nth-child(3) i { color: var(--green); }
+        .modal-item strong { 
+            color: var(--sky); 
+            font-size: 12px; 
+            display: block; 
+            margin-bottom: 3px;
+        }
+        .modal-item:nth-child(2) strong { color: var(--gold); }
+        .modal-item:nth-child(3) strong { color: var(--green); }
+        .modal-item p { 
+            font-size: 11px; 
+            margin: 0; 
+            color: #aaa;
+            line-height: 1.4;
+        }
+        .modal-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #888;
+            font-size: 10px;
+        }
+        #enter-site { 
+            background: linear-gradient(135deg, var(--gold), #FFA500); 
+            color: #000; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            width: 100%; 
+            font-family: 'Poppins'; 
+            font-size: 14px;
+            margin-top: 15px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        #enter-site:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+        #enter-site:active { 
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
 
-<header><a href="#" class="logo">GUDANG<span>GACOR</span>PRO</a></header>
+<!-- Modal Popup Welcome -->
+<div id="welcome-modal">
+    <div class="modal-content">
+        <button class="modal-close" id="close-modal">✕</button>
+        
+        <div class="modal-header">
+            <h2 class="modal-title">GUDANG FREEBET ID</h2>
+            <p class="modal-subtitle">VIP ACCESS ONLY</p>
+        </div>
+        
+        <div class="modal-item">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+                <strong>Gunakan VPN 1.1.1.1</strong>
+                <p>Jika link APK tidak bisa dibuka, aktifkan VPN untuk akses tanpa blokir jaringan.</p>
+            </div>
+        </div>
+        
+        <div class="modal-item">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong>Pernyataan Peraturan</strong>
+                <p>Hanya untuk hiburan dewasa. Bermain dengan tanggung jawab penuh. Dilarang untuk pengguna di bawah 21 tahun.</p>
+            </div>
+        </div>
+        
+        <div class="modal-item">
+            <i class="fas fa-file-contract"></i>
+            <div>
+                <strong>Ketentuan Layanan</strong>
+                <p>Dengan mengakses situs ini, Anda setuju dengan syarat dan ketentuan yang berlaku. Semua hak cipta dilindungi.</p>
+            </div>
+        </div>
+        
+        <button id="enter-site">
+            <i class="fas fa-door-open" style="margin-right: 8px;"></i> MASUK KE BERANDA
+        </button>
+        
+        <div class="modal-footer">
+            <i class="fas fa-copyright"></i>
+            <span>© 2024 GUDANG GACOR PRO V2.5 - All Rights Reserved</span>
+        </div>
+    </div>
+</div>
+
+<header><a href="#" class="logo">GUDANG<span>FREEBET</span>ID</a></header>
 
 <div id="wd-toast">
     <i class="fas fa-check-circle" style="color: var(--green);"></i> 
@@ -88,10 +330,10 @@
 </div>
 
 <div class="filter-nav">
-    <div class="badge-btn active"><i class="fas fa-th-large"></i> SEMUA</div>
-    <div class="badge-btn"><i class="fas fa-fire" style="color:red"></i> GACOR</div>
-    <div class="badge-btn"><i class="fas fa-chart-line" style="color:var(--sky)"></i> TRENDING</div>
-    <div class="badge-btn"><i class="fas fa-gem" style="color:var(--gold)"></i> VVIP</div>
+    <div class="badge-btn active" onclick="sortData('all', this)"><i class="fas fa-th-large"></i> SEMUA</div>
+    <div class="badge-btn" onclick="sortData('gacor', this)"><i class="fas fa-fire" style="color:red"></i> GACOR</div>
+    <div class="badge-btn" onclick="sortData('trending', this)"><i class="fas fa-chart-line" style="color:var(--sky)"></i> TRENDING</div>
+    <div class="badge-btn" onclick="sortData('vvip', this)"><i class="fas fa-gem" style="color:var(--gold)"></i> VVIP</div>
 </div>
 
 <div class="app-grid" id="main-display"></div>
